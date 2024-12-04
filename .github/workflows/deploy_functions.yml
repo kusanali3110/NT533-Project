@@ -1,7 +1,7 @@
 name: Deploy OpenFaaS Functions
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -21,13 +21,18 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Log in to DockerHub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        
+      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
     - name: Build, push and deploy functions with prune
       env:
-        OPENFAAS_URL: ${{ secrets.OPENFAAS_GATEWAY }}
+        OPENFAAS_GATEWAY: ${{ secrets.OPENFAAS_GATEWAY }}
         OPENFAAS_USER: ${{ secrets.OPENFAAS_USERNAME }}
         OPENFAAS_PASSWORD: ${{ secrets.OPENFAAS_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       run: |
-        echo $OPENFAAS_PASSWORD | faas-cli login --username $OPENFAAS_USER --password-stdin --gateway $OPENFAAS_URL
-        faas-cli up -f deploy.yml --prune --gateway $OPENFAAS_URL
+        echo $OPENFAAS_PASSWORD | faas-cli login --username $OPENFAAS_USER --password-stdin --gateway $OPENFAAS_GATEWAY
+        faas-cli up -f deploy.yml

@@ -1,3 +1,7 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: ${OPENFAAS_GATEWAY}
 functions:
   nodejs-func:
     lang: node18
