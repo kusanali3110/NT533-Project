@@ -29,9 +29,10 @@ jobs:
 
     - name: Build, push and deploy functions with prune
       env:
-        OPENFAAS_URL: ${{ secrets.OPENFAAS_GATEWAY }}
+        OPENFAAS_GATEWAY: ${{ secrets.OPENFAAS_GATEWAY }}
         OPENFAAS_USER: ${{ secrets.OPENFAAS_USERNAME }}
         OPENFAAS_PASSWORD: ${{ secrets.OPENFAAS_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       run: |
-        echo $OPENFAAS_PASSWORD | faas-cli login --username $OPENFAAS_USER --password-stdin --gateway $OPENFAAS_URL
+        echo $OPENFAAS_PASSWORD | faas-cli login --username $OPENFAAS_USER --password-stdin --gateway $OPENFAAS_GATEWAY
         faas-cli up -f deploy.yml --replace
