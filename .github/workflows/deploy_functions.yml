@@ -30,4 +30,5 @@ jobs:
         OPENFAAS_PASSWORD: ${{ secrets.OPENFAAS_PASSWORD }}
       run: |
         echo $OPENFAAS_PASSWORD | faas-cli login --username $OPENFAAS_USER --password-stdin --gateway $OPENFAAS_URL
-        faas-cli up -f deploy.yml --prune --gateway $OPENFAAS_URL
+        faas-cli remove 
+        faas-cli up -f deploy.yml --replace --gateway $OPENFAAS_URL
