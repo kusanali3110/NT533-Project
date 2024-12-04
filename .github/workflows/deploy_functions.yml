@@ -1,7 +1,7 @@
 name: Deploy OpenFaaS Functions
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -35,4 +35,4 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       run: |
         echo $OPENFAAS_PASSWORD | faas-cli login --username $OPENFAAS_USER --password-stdin --gateway $OPENFAAS_GATEWAY
-        faas-cli up -f deploy.yml --replace
+        faas-cli up -f deploy.yml
