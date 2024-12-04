@@ -1,0 +1,9 @@
+functions:
+  nodejs-func:
+    lang: node18
+    handler: ./nodejs-func
+    image: ${DOCKER_USERNAME}/nodejs-func:latest
+  python-func:
+    lang: python3
+    handler: ./python-func
+    image: ${DOCKER_USERNAME}/python-func:latest
